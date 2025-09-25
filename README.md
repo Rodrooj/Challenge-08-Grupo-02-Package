@@ -10,11 +10,11 @@ No seu `Package.swift`, adicione:
 dependencies: [
     .package(url: "https://github.com/seu-usuario/VictorLibary.git", from: "1.0.0")
 ]
-
+```
 E depois importe no código:
-
+```
 import VictorLibary
-
+```
 
 ⸻
 
