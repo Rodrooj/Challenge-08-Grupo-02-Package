@@ -7,7 +7,7 @@ import CoreML
 
 /// Class animalPackage
 /// classe responsável por manipular tudo sobre o código
-public class animalPackage {
+public class AnimalPackage {
     
     private let model: Animais3?
     
@@ -18,12 +18,6 @@ public class animalPackage {
             print("Erro no modelo: \(error)")
             self.model = nil
         }
-    }
-    
-    /// Função de teste
-    /// Função que retorna uma String escrita teste
-    public func teste () -> String {
-        return "teste"
     }
     
     /// Função animal
@@ -61,15 +55,15 @@ public class animalPackage {
     /// Puxa de uma API de tradução o necessário
     /// Traduz para três linguas, portugês (pt), inglês (en)  e francês (fr)
     ///
+    ///
     /// - Parameter text: Recebe um conteúdo de texto para traduzir
     /// - Returns : Retorna um set com a linguagem e o texto traduzido para a linguagem respectiva
     public func translate(text: String) async throws -> [Locale.Language: String] {
         var results: [Locale.Language: String] = [:]
-        let targets: [Locale.Language] = [Locale.Language.init(identifier: "pt"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
+        let targets: [Locale.Language] = [Locale.Language.init(identifier: "pt-BR"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
         for lang in targets {
             let config = TranslationSession.Configuration(source: nil, target: lang)
-            guard let cfgTarget = config.target else { return [:] }
-            let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt") ,target: cfgTarget)
+            let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt") ,target: config.target ?? Locale.Language.init(identifier: "pt"))
             let response = try await session.translate(text)
             results[lang] = response.targetText
         }
