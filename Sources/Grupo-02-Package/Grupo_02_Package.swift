@@ -9,10 +9,15 @@ import CoreML
 /// classe responsável por manipular tudo sobre o código
 public class animalPackage {
     
-    let model: Animais3
+    private let model: Animais3?
     
-    public init() throws{
-        self.model = try Animais3(configuration: MLModelConfiguration())
+    public init(){
+        do {
+            self.model = try Animais3(configuration: MLModelConfiguration())
+        } catch {
+            print("Erro no modelo: \(error)")
+            self.model = nil
+        }
     }
     
     /// Função de teste
@@ -29,6 +34,7 @@ public class animalPackage {
     /// - Returns : Retorna a descrição do animal (por enquanto)
     public func whatAnimal(descricao: String) -> String {
         // TODO: Colocar o ML e retornar qual é o animal baseado na descrição
+        guard let model = model else { return "Modelo não carregado" }
         let predicao: Animais3Output
         do {
             predicao = try model.prediction(text: "\(descricao)")
