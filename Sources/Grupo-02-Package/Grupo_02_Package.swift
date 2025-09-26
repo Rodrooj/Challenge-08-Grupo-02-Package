@@ -60,7 +60,7 @@ public class AnimalPackage {
     /// - Returns : Retorna um set com a linguagem e o texto traduzido para a linguagem respectiva
     public func translate(text: String) async throws -> [Locale.Language: String] {
         var results: [Locale.Language: String] = [:]
-        let targets: [Locale.Language] = [Locale.Language.init(identifier: "pt-BR"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
+        let targets: [Locale.Language] = [Locale.Language.init(identifier: "it"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
         for lang in targets {
             let config = TranslationSession.Configuration(source: nil, target: lang)
             let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt-BR") ,target: config.target ?? Locale.Language.init(identifier: "en"))
