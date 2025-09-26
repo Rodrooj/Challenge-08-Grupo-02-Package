@@ -9,5 +9,6 @@ Esse package também pode identificar qual o idioma da descrição dada.
 
 ### Funções
 
-- ``Grupo_02_Package/animal(descricao:)``
-- ``Grupo_02_Package/idioma(texto:)``
+- ``Grupo_02_Package/whatAnimal(descricao:)``
+- ``Grupo_02_Package/whatLanguage(text:)``
+- ``Grupo_02_Package/translate(text:)``

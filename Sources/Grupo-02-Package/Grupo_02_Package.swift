@@ -2,33 +2,67 @@
 // https://docs.swift.org/swift-book
 
 import NaturalLanguage
+import Translation
+import CoreML
 
-/// Função de teste
-/// Função que retorna uma String escrita teste
-public func teste () -> String {
-    return "teste"
-}
-
-/// Função animal
-/// Base de função que pega uma descrição e retorna um nome de animal
-/// Por enquanto incompleta sem o ML
-/// Ainda retorna so a própria descrição
-///
-/// - Parameter descricao: Pega um conteúdo textual que descreve um animal
-/// - Returns : Retorna a descrição do animal (por enquanto)
-public func animal(descricao: String) -> String {
-    // TODO: Colocar o ML e retornar qual é o animal baseado na descrição
-    return "O animal é: \(descricao)"
-}
-
-/// Função idioma
-/// Responsável por definir qual o idioma provável de um texto
-/// Caso não dê certo, retorna uma String de não foi possível identificar.
-///
-/// - Parameter texto: Pega o conteúdo de texto passado
-/// - Returns : Retorna o idioma do respectivo texto
-public func idioma(texto: String) -> String {
-    let language = NLLanguageRecognizer.dominantLanguage(for: texto)
-    guard let languageName = language?.rawValue else { return "Não foi possível identificar o idioma" }
-    return "O idioma é: \(languageName)"
+/// Class animalPackage
+/// classe responsável por manipular tudo sobre o código
+class animalPackage {
+    
+    let customModel = NLModel()
+    
+    init () {
+        
+    }
+    
+    /// Função de teste
+    /// Função que retorna uma String escrita teste
+    public func teste () -> String {
+        return "teste"
+    }
+    
+    /// Função animal
+    /// Base de função que pega uma descrição e retorna um nome de animal
+    /// Por enquanto incompleta sem o ML
+    /// Ainda retorna so a própria descrição
+    ///
+    /// - Parameter descricao: Pega um conteúdo textual que descreve um animal
+    /// - Returns : Retorna a descrição do animal (por enquanto)
+    public func whatAnimal(descricao: String) -> String {
+        // TODO: Colocar o ML e retornar qual é o animal baseado na descrição
+        let predicao = customModel.predictedLabel(for: "\(descricao)") ?? "Não foi possível identificar"
+        return "O animal é: \(predicao)"
+    }
+    
+    /// Função idioma
+    /// Responsável por definir qual o idioma provável de um texto
+    /// Caso não dê certo, retorna uma String de não foi possível identificar.
+    ///
+    /// - Parameter text: Pega o conteúdo de texto passado
+    /// - Returns : Retorna o idioma do respectivo texto
+    public func whatLanguage(text: String) -> String {
+        let language = NLLanguageRecognizer.dominantLanguage(for: text)
+        guard let languageName = language?.rawValue else { return "Não foi possível identificar o idioma" }
+        return "O idioma é: \(languageName)"
+    }
+    
+    /// Função de Tradução
+    /// Responsável por Traduzir um texto para vários idiomas
+    /// Puxa de uma API de tradução o necessário
+    /// Traduz para três linguas, portugês (pt), inglês (en)  e francês (fr)
+    ///
+    /// - Parameter text: Recebe um conteúdo de texto para traduzir
+    /// - Returns : Retorna um set com a linguagem e o texto traduzido para a linguagem respectiva
+    public func translate(text: String) async throws -> [Locale.Language: String] {
+        var results: [Locale.Language: String] = [:]
+        let targets: [Locale.Language] = [Locale.Language.init(identifier: "pt"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
+        for lang in targets {
+            let config = TranslationSession.Configuration(source: nil, target: lang)
+            guard let cfgTarget = config.target else { return [:] }
+            let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt") ,target: cfgTarget)
+            let response = try await session.translate(text)
+            results[lang] = response.targetText
+        }
+        return results
+    }
 }
