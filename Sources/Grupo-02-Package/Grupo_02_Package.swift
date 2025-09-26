@@ -1,2 +1,13 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+import SwiftUI
+
+extension View {
+    /// Função para centralizar uma View horizontalmente
+    public func centerHorizontally() -> some View {
+        HStack {
+            Spacer()
+            self
+            Spacer()
+        }
+    }
+}
+
