@@ -10,11 +10,11 @@ No seu `Package.swift`, adicione:
 dependencies: [
     .package(url: "https://github.com/seu-usuario/VictorLibary.git", from: "1.0.0")
 ]
-
+```
 E depois importe no código:
-
+```
 import VictorLibary
-
+```
 
 ⸻
 
@@ -48,15 +48,15 @@ print(tokens) // ["O", "vidro", "quebrou", "!"]
 ⸻
 
 📚 Roadmap
-    •    Melhorar suporte a mais idiomas
-    •    Adicionar análise de sentimento
-    •    Criar integração com modelos de linguagem maiores
+- Melhorar suporte a mais idiomas
+- Adicionar análise de sentimento
+- Criar integração com modelos de linguagem maiores
 
 ⸻
 
 🛠 Requisitos
-    •    Swift 5.5 ou superior
-    •    iOS 13+, macOS 10.15+
+- Swift 5.5 ou superior
+- iOS 13+, macOS 10.15+
 
 ⸻
 
