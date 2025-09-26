@@ -6,12 +6,9 @@ import NaturalLanguage
 /// - Returns: Retorna uma string indicando o idioma predominante (ex: "pt").
 ///   Em caso de não reconhecimento, retorna "Não encontrado".
 public func identificarIdioma(texto: String) -> String {
-    let reconhecedor = NLLanguageRecognizer()
-    reconhecedor.processString(texto)
-    if let language = reconhecedor.dominantLanguage {
-        return language.rawValue
-    }
-    return "Não encontrado"
+    let idiomaDominante = NLLanguageRecognizer.dominantLanguage(for: texto)
+    guard let idioma = idiomaDominante?.rawValue else { return "Não encontrado" }
+    return idioma
 }
 
 /// Enumera as palavras de uma String e retorna um array com cada palavra e caracteres especiais.
