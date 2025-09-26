@@ -7,11 +7,11 @@ import CoreML
 
 /// Class animalPackage
 /// classe responsável por manipular tudo sobre o código
-class animalPackage {
+public class animalPackage {
     
     let customModel = NLModel()
     
-    init () {
+    public init () {
         
     }
     
