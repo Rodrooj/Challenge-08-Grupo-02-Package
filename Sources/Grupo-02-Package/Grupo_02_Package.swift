@@ -61,8 +61,21 @@ public class AnimalPackage {
     public func translate(text: String) async throws -> [Locale.Language: String] {
         var results: [Locale.Language: String] = [:]
         let targets: [Locale.Language] = [Locale.Language.init(identifier: "it"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
+        
+        // Detecta o idioma do texto (usando NaturalLanguage)
+        let detected = NLLanguageRecognizer.dominantLanguage(for: text)
+        let source = detected.map { Locale.Language(identifier: $0.rawValue) }
+
+        for target in targets {
+            // Se origem e destino forem o mesmo idioma, pule ou simplesmente retorne o próprio texto
+            if let source, source == target {
+                results[target] = text // (opcional) retornar o próprio texto
+                continue
+            }
+        }
+        
         for lang in targets {
-            let config = TranslationSession.Configuration(source: nil, target: lang)
+            let config = TranslationSession.Configuration(source: source, target: lang)
             let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "it") ,target: config.target ?? Locale.Language.init(identifier: "en"))
             let response = try await session.translate(text)
             results[lang] = response.targetText
