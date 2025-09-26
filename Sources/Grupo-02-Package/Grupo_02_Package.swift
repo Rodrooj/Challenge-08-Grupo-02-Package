@@ -9,10 +9,16 @@ import CoreML
 /// classe responsável por manipular tudo sobre o código
 public class animalPackage {
     
-    let customModel = NLModel()
+    let model: Animais3
     
     public init () {
-        
+        do {
+            let modelURL = Bundle.module.url(forResource: "Animais3", withExtension: "mlmodelc")!
+            model = try Animais3(contentsOf: modelURL)
+        } catch {
+            print("Erro no modelo: \(error)")
+            model = Animais3(model: MLModel())
+        }
     }
     
     /// Função de teste
@@ -22,16 +28,20 @@ public class animalPackage {
     }
     
     /// Função animal
-    /// Base de função que pega uma descrição e retorna um nome de animal
-    /// Por enquanto incompleta sem o ML
-    /// Ainda retorna so a própria descrição
+    /// Função que pega o model treinado, analisa a descrição sobre o animal e prevê qual o animal
+    /// Ela prevê somente ente cachorro, peixe e pássaro
     ///
     /// - Parameter descricao: Pega um conteúdo textual que descreve um animal
     /// - Returns : Retorna a descrição do animal (por enquanto)
     public func whatAnimal(descricao: String) -> String {
         // TODO: Colocar o ML e retornar qual é o animal baseado na descrição
-        let predicao = customModel.predictedLabel(for: "\(descricao)") ?? "Não foi possível identificar"
-        return "O animal é: \(predicao)"
+        let predicao: Animais3Output
+        do {
+            predicao = try model.prediction(text: "\(descricao)")
+        } catch {
+            return "Erro: \(error)"
+        }
+        return "O animal é: \(predicao.label)"
     }
     
     /// Função idioma
