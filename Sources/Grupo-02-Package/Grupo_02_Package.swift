@@ -63,7 +63,7 @@ public class AnimalPackage {
         let targets: [Locale.Language] = [Locale.Language.init(identifier: "pt-BR"), Locale.Language.init(identifier: "en"), Locale.Language.init(identifier: "fr")]
         for lang in targets {
             let config = TranslationSession.Configuration(source: nil, target: lang)
-            let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt") ,target: config.target ?? Locale.Language.init(identifier: "pt"))
+            let session = TranslationSession(installedSource: config.source ?? Locale.Language.init(identifier: "pt-BR") ,target: config.target ?? Locale.Language.init(identifier: "pt-BR"))
             let response = try await session.translate(text)
             results[lang] = response.targetText
         }
