@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Grupo-02-Package",
+    platforms: [.iOS(.v13), .macOS(.v11)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
