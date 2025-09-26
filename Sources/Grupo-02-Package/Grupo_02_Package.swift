@@ -11,14 +11,8 @@ public class animalPackage {
     
     let model: Animais3
     
-    public init () {
-        do {
-            let modelURL = Bundle.module.url(forResource: "Animais3", withExtension: "mlmodelc")!
-            model = try Animais3(contentsOf: modelURL)
-        } catch {
-            print("Erro no modelo: \(error)")
-            model = Animais3(model: MLModel())
-        }
+    public init() throws{
+        self.model = try Animais3(configuration: MLModelConfiguration())
     }
     
     /// Função de teste
@@ -38,10 +32,10 @@ public class animalPackage {
         let predicao: Animais3Output
         do {
             predicao = try model.prediction(text: "\(descricao)")
+            return "O animal é: \(predicao.label)"
         } catch {
             return "Erro: \(error)"
         }
-        return "O animal é: \(predicao.label)"
     }
     
     /// Função idioma
